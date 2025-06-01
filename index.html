@@ -167,13 +167,13 @@
     });
 
     //console dir
-    errorBtns[6].addEventListener('click', () => {
-      console.dir(document.body); 
+    errorBtns[6].addEventListener('click', (e) => {
+      console.dir(e.target); 
     });
 
     //console dirxml
-    errorBtns[7].addEventListener('click', () => {
-      console.dirxml(document.body); 
+    errorBtns[7].addEventListener('click', (e) => {
+      console.dirxml(e.target); 
     });
 
     //console group start and end
