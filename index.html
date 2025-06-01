@@ -119,6 +119,7 @@
         if (operator === "/" && Number(secondNum) === 0) {
           throw new CalculationError("Undefined");
         }
+        
         output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
       }
       catch (error) {
