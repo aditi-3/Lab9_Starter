@@ -96,6 +96,7 @@
       });
       TrackJS.track('Testing TrackJS!');
     </script>
+
   <script>
     class CalculationError extends Error {
       constructor(message) {
@@ -135,38 +136,47 @@
     let active = false;
     let timer = false;
 
+    //console log
     errorBtns[0].addEventListener('click', () => {
-      console.log("console.log", "Hello, world!", 100, [1]);
+      console.log("console.log");
     });
 
+    //console error
     errorBtns[1].addEventListener('click', () => {
-      console.error("console.error", "Something went wrong!", [2]);
+      console.error("console.error");
     });
 
+    //console count
     errorBtns[2].addEventListener('click', () => {
       console.count("Console count button");
     });
 
+    //console warn
     errorBtns[3].addEventListener('click', () => {
-      console.warn("console.warn", "warning");
+      console.warn("console.warn");
     });
 
+    //console assert
     errorBtns[4].addEventListener('click', () => {
       console.assert(false, "console.assert");
     });
 
+    //console clear
     errorBtns[5].addEventListener('click', () => {
       console.clear();
     });
 
+    //console dir
     errorBtns[6].addEventListener('click', () => {
       console.dir(document.body); 
     });
 
+    //console dirxml
     errorBtns[7].addEventListener('click', () => {
       console.dirxml(document.body); 
     });
 
+    //console group start and end
     errorBtns[8].addEventListener('click', () => {
       if (!active) {
         console.group("Demo Group");
@@ -177,6 +187,7 @@
       }
     });
 
+    //console group end
     errorBtns[9].addEventListener('click', () => {
       if (active) {
         console.groupEnd();
@@ -186,12 +197,14 @@
       }
     });
 
+    //console table
     errorBtns[10].addEventListener('click', () => {
       console.table([
         ["hi", 1],
       ]);
     });
 
+    //console timer start and end
     errorBtns[11].addEventListener('click', () => {
       if (!timer) {
         console.time("Demo Timer");
@@ -201,6 +214,7 @@
       }
     });
 
+    //console timer end
     errorBtns[12].addEventListener('click', () => {
       if (timer) {
         console.timeEnd("Demo Timer");
@@ -210,6 +224,7 @@
       }
     });
 
+    //console trace
     errorBtns[13].addEventListener('click', () => {
       function traceDemo() {
         function inner() {
@@ -227,6 +242,7 @@
     //   return true;
     // };
 
+    // Trigger a global error
     errorBtns[14].addEventListener('click', () => {
       throw new Error("Global error");
     });
