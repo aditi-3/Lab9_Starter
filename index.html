@@ -87,7 +87,21 @@
     </section>
   </main>
 
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
   <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "8a1165110a394ebaa87e66ff9bf73c82"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+    TrackJS.track('Testing TrackJS!');
+    
+    class CalculationError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "CalculationError";
+      }
+    }
+
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
       e.preventDefault();
@@ -95,7 +109,22 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      try {
+        if (isNaN(Number(firstNum)) || isNaN(Number(secondNum))) {
+          throw new CalculationError("Inputs have to be numbers");
+        }      
+        if (operator === "/" && Number(secondNum) === 0) {
+          throw new CalculationError("Undefined");
+        }
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      }
+      catch (error) {
+        alert("Error: " + error.message);
+        console.error(error);
+      } 
+      finally {
+        console.log("Calculation attempted");
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
@@ -105,23 +134,23 @@
     let timer = false;
 
     errorBtns[0].addEventListener('click', () => {
-      console.log("This is a console.log demo!", "Hello, world!", 123, [1, 2, 3]);
+      console.log("console.log", "Hello, world!", 100, [1]);
     });
 
     errorBtns[1].addEventListener('click', () => {
-      console.error("This is a console.error demo!", "Something went wrong!", [4, 5, 6]);
+      console.error("console.error", "Something went wrong!", [2]);
     });
 
     errorBtns[2].addEventListener('click', () => {
-      console.count("Console Count Button Clicked");
+      console.count("Console count button");
     });
 
     errorBtns[3].addEventListener('click', () => {
-      console.warn("This is a console.warn demo!", "Be careful!");
+      console.warn("console.warn", "warning");
     });
 
     errorBtns[4].addEventListener('click', () => {
-      console.assert(false, "This is a console.assert demo! (should only show if assertion fails)");
+      console.assert(false, "console.assert");
     });
 
     errorBtns[5].addEventListener('click', () => {
@@ -139,10 +168,10 @@
     errorBtns[8].addEventListener('click', () => {
       if (!active) {
         console.group("Demo Group");
-        console.log("Inside group! Here is an array:", [10, 20, 30]);
+        console.log("Inside group", [1]);
         active = true;
       } else {
-        console.log("Group already started. End it before starting again.");
+        console.log("Group already started");
       }
     });
 
@@ -151,15 +180,13 @@
         console.groupEnd();
         active = false;
       } else {
-        console.log("No group to end.");
+        console.log("No group");
       }
     });
 
     errorBtns[10].addEventListener('click', () => {
       console.table([
-        ["A", 1],
-        ["B", 2],
-        ["C", 3]
+        ["hi", 1],
       ]);
     });
 
@@ -168,7 +195,7 @@
         console.time("Demo Timer");
         timer = true;
       } else {
-        console.log("Timer already started.");
+        console.log("Timer already started");
       }
     });
 
@@ -184,12 +211,39 @@
     errorBtns[13].addEventListener('click', () => {
       function traceDemo() {
         function inner() {
-          console.trace("This is a console.trace demo!");
+          console.trace("console.trace");
         }
         inner();
       }
       traceDemo();
     });
+    
+    // window.onerror = function (message) {
+    //   console.log("Global error caught:", message);
+    //   const img = new Image();
+    //   img.src = "https://ajaxref.com/ch2/setjavascripterror.php?message=" + encodeURIComponent(message);
+    //   return true;
+    // };
+
+    errorBtns[14].addEventListener('click', () => {
+      throw new Error("Global error");
+    });
+
+    function reportJSError(message, source, line) {
+      const payload = 
+        "url=" + encodeURIComponent(source) + 
+        "&message=" + encodeURIComponent(message) + 
+        "&line=" + encodeURIComponent(line);
+
+      const img = new Image();
+      img.src = "https://ajaxref.com/ch2/setjavascripterror.php?" + payload;
+
+      alert("JavaScript Error Encountered.\nSite Administrators have been notified.");
+      return true;
+    }
+
+    window.onerror = reportJSError;
+
     // You may move this JS to another file if you wish
   </script>
 </body>
